@@ -4,9 +4,9 @@
 
 - [ ] Define complete affect block taxonomy
 - [ ] Draft state page content for 3 pilot states
-- [ ] Design state puzzle interaction spec
-- [ ] Set up Vite + React + TypeScript scaffold
-- [ ] Configure Framer Motion + Zustand
+- [ ] Design state puzzle interaction spec (paper/wireframe only, no code)
+- [ ] Set up Vite + Vue 3 + TypeScript scaffold (no UI components)
+- [ ] Configure Pinia
 - [ ] Write content guidelines (tone, constraints)
 - [ ] Safety review checklist
 
@@ -14,8 +14,8 @@
 
 ## Next (Phase 1 Prep)
 
-- [ ] Implement state puzzle UI prototype
-- [ ] Build page template component
+- [ ] Implement state puzzle UI prototype **(after prototype design approved)**
+- [ ] Build page template component **(after prototype design approved)**
 - [ ] Create local storage layer
 - [ ] Draft 5–8 state pages
 - [ ] Risk signal detection logic

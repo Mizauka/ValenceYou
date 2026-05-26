@@ -40,14 +40,23 @@ Subjective bodily experience can be modeled as a compositional state space; harm
 ## Tech Stack
 
 **Phase 1 (MVP)**
-- Vite + React + TypeScript
-- Framer Motion
-- Zustand
+- Vite + Vue 3 + TypeScript
+- Framer Motion (via Vue wrapper or GSAP alternative)
+- Pinia
 - Local-first storage
 
 **Phase 2 (Native)** — Only after UX stabilization
 - Jetpack Compose (Android)
 - SwiftUI (iOS)
+
+---
+
+## UI Development Policy
+
+**Before prototype design is finalized by the project owner:**
+- No UI implementation
+- Focus on documentation, architecture, and content
+- UI framework choice (Vue) is locked, but no components built yet
 
 ---
 
@@ -83,19 +92,20 @@ project-root/
 
 ---
 
-## Quick Start
+## Setup
 
 ```bash
-# Clone
 git clone https://github.com/Mizauka/ValenceYou.git
 cd ValenceYou
-
-# Install dependencies
 pnpm install
-
-# Start dev server
-pnpm dev
 ```
+
+## UI Development Policy
+
+**Before prototype design is finalized by the project owner:**
+- No UI implementation
+- Focus on documentation, architecture, and content
+- UI framework choice (Vue) is locked, but no components built yet
 
 ---
 

@@ -32,10 +32,10 @@ ValenceYou is a client-side harm-reduction application with no backend in Phase 
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
-| Framework | Vite + React 18 | Fast iteration, modern patterns |
+| Framework | Vite + Vue 3 + TypeScript | Fast iteration, familiar stack |
 | Language | TypeScript | Type safety |
-| Animation | Framer Motion | High-fidelity interactions |
-| State | Zustand | Lightweight, local-first |
+| Animation | Framer Motion / GSAP | High-fidelity interactions |
+| State | Pinia | Lightweight, local-first |
 | Styling | CSS Modules / Tailwind | Scoped, maintainable |
 | Storage | IndexedDB (via idb) | Structured local data |
 

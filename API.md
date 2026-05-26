@@ -58,7 +58,7 @@ detect(profile: StateProfile): RiskSignal[];
 
 ---
 
-### Store API (Zustand)
+### Store API (Pinia)
 
 ```typescript
 interface AppState {
@@ -77,10 +77,10 @@ interface AppState {
 }
 
 // Actions
-setProfile(profile: StateProfile): void;
-addToHistory(profile: StateProfile): void;
-clearHistory(): void;
-setLanguage(lang: string): void;
+function setProfile(profile: StateProfile): void;
+function addToHistory(profile: StateProfile): void;
+function clearHistory(): void;
+function setLanguage(lang: string): void;
 ```
 
 ---

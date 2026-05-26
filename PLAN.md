@@ -139,8 +139,8 @@ Each state page contains:
 
 | Phase | Name | Deliverables |
 |-------|------|-------------|
-| 0 | Spec Lock | Define state space + UX rules |
-| 1 | MVP Prototype | 5–8 state pages, state puzzle UI, risk + harm reduction layer |
+| 0 | Spec Lock | Define state space + UX rules. **No UI code before prototype design approved.** |
+| 1 | MVP Prototype | 5–8 state pages, state puzzle UI (after design approval), risk + harm reduction layer |
 | 2 | Structure Expansion | State taxonomy refinement, mapping stability tests, content scaling |
 | 3 | Controlled Expansion | Optional anonymous logs, longitudinal state tracking, multi-language support |
 | 4 | Native Migration | UX stable + safety validated + retention stable |
