@@ -6,20 +6,20 @@ ValenceYou is a client-side harm-reduction application with no backend in Phase 
 
 ```
 ┌─────────────────────────────────────┐
-│           Frontend (React)          │
+│     Compose Multiplatform (Kotlin)  │
 │  ┌─────────┐  ┌─────────┐  ┌──────┐ │
 │  │  State  │  │  Risk   │  │  HR  │ │
 │  │  Puzzle │  │  Layer  │  │ Flow │ │
 │  └─────────┘  └─────────┘  └──────┘ │
 │  ┌─────────┐  ┌─────────┐  ┌──────┐ │
 │  │  Pages  │  │  Store  │  │  UI  │ │
-│  │ (State) │  │(Zustand)│  │ Kit  │ │
+│  │ (State) │  │(SQLDeli)│  │ Kit  │ │
 │  └─────────┘  └─────────┘  └──────┘ │
 └─────────────────────────────────────┘
               │
               ▼
 ┌─────────────────────────────────────┐
-│        Local Storage (IndexedDB)    │
+│        SQLite (SQLDelight)          │
 │        - State history              │
 │        - User preferences           │
 │        - Cached content             │
@@ -32,12 +32,12 @@ ValenceYou is a client-side harm-reduction application with no backend in Phase 
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
-| Framework | Vite + Vue 3 + TypeScript | Fast iteration, familiar stack |
-| Language | TypeScript | Type safety |
-| Animation | Framer Motion / GSAP | High-fidelity interactions |
-| State | Pinia | Lightweight, local-first |
-| Styling | CSS Modules / Tailwind | Scoped, maintainable |
-| Storage | IndexedDB (via idb) | Structured local data |
+| Framework | Compose Multiplatform (Kotlin) | Cross-platform UI, single codebase |
+| Language | Kotlin | Type safety, coroutines |
+| Rendering | Skia | High-performance 2D graphics |
+| State | SQLDelight + Kotlin Flow | Local-first, reactive |
+| Storage | SQLite (SQLDelight) | Structured local data |
+| Animation | Compose Animation API | Built-in, declarative |
 
 ---
 
@@ -47,8 +47,8 @@ ValenceYou is a client-side harm-reduction application with no backend in Phase 
 
 - **Block definitions** — affect block taxonomy
 - **Composition engine** — combine blocks → continuous profile
-- **Renderer** — Framer Motion animated blocks
-- **Interaction handlers** — drag, resize, combine
+- **Renderer** — Skia/Compose Canvas animated blocks
+- **Interaction handlers** — drag, resize, combine (Compose gesture API)
 
 ### State Pages (`/src/pages/`)
 
@@ -64,9 +64,10 @@ ValenceYou is a client-side harm-reduction application with no backend in Phase 
 
 ### Store (`/src/store/`)
 
-- **Profile history** — temporal state snapshots
-- **Preferences** — accessibility, language
-- **Content cache** — offline availability
+- **Profile history** — temporal state snapshots (SQLite)
+- **Preferences** — accessibility, language (SQLite)
+- **Content cache** — offline availability (SQLite)
+- **Reactive updates** — Kotlin Flow
 
 ---
 
@@ -125,13 +126,16 @@ Separate package for state space computation.
 
 ```bash
 # Development
-pnpm dev
+./gradlew :composeApp:run
 
 # Production build
-pnpm build
+./gradlew :composeApp:package
 
-# Static hosting
-# (Vercel, Netlify, GitHub Pages)
+# Android
+./gradlew :composeApp:assembleDebug
+
+# iOS (via Kotlin/Native)
+./gradlew :composeApp:iosSimulatorArm64Binaries
 ```
 
 No server required for Phase 1–2.

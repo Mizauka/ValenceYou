@@ -13,9 +13,9 @@
 ## Phase 1 — MVP Prototype
 
 - [ ] 5–8 state pages with full template
-- [ ] State puzzle UI (Framer Motion)
+- [ ] State puzzle UI (Compose Multiplatform + Skia)
 - [ ] Risk + harm reduction layer
-- [ ] Local-first storage (Zustand)
+- [ ] Local-first storage (SQLDelight + SQLite)
 - [ ] UX validity testing
 - [ ] Safety review
 

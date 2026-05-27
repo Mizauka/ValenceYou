@@ -58,29 +58,29 @@ detect(profile: StateProfile): RiskSignal[];
 
 ---
 
-### Store API (Pinia)
+### Store API (SQLDelight + Kotlin Flow)
 
-```typescript
+```kotlin
 interface AppState {
-  // Current session
-  currentProfile: StateProfile | null;
-  
-  // History
-  profileHistory: StateProfile[];
-  
-  // Preferences
-  language: 'zh-CN' | 'zh-TW' | 'en';
-  accessibility: AccessibilitySettings;
-  
-  // Content
-  cachedPages: Record<string, StatePage>;
+    // Current session
+    val currentProfile: StateFlow<StateProfile?>
+    
+    // History
+    val profileHistory: StateFlow<List<StateProfile>>
+    
+    // Preferences
+    val language: StateFlow<String>  // zh-CN, zh-TW, en
+    val accessibility: StateFlow<AccessibilitySettings>
+    
+    // Content
+    val cachedPages: StateFlow<Map<String, StatePage>>
 }
 
-// Actions
-function setProfile(profile: StateProfile): void;
-function addToHistory(profile: StateProfile): void;
-function clearHistory(): void;
-function setLanguage(lang: string): void;
+// Actions (suspend functions)
+suspend fun setProfile(profile: StateProfile)
+suspend fun addToHistory(profile: StateProfile)
+suspend fun clearHistory()
+suspend fun setLanguage(lang: String)
 ```
 
 ---

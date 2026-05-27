@@ -5,8 +5,8 @@
 - [ ] Define complete affect block taxonomy
 - [ ] Draft state page content for 3 pilot states
 - [ ] Design state puzzle interaction spec (paper/wireframe only, no code)
-- [ ] Set up Vite + Vue 3 + TypeScript scaffold (no UI components)
-- [ ] Configure Pinia
+- [ ] Set up Compose Multiplatform + Kotlin scaffold (no UI components)
+- [ ] Configure SQLDelight + SQLite
 - [ ] Write content guidelines (tone, constraints)
 - [ ] Safety review checklist
 
