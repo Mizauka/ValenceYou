@@ -1,0 +1,48 @@
+CREATE TABLE StateProfile (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    updatedAt INTEGER NOT NULL,
+    baselineValence REAL NOT NULL DEFAULT 0.0,
+    baselineArousal REAL NOT NULL DEFAULT 0.5
+);
+
+CREATE TABLE AffectBlock (
+    id TEXT PRIMARY KEY,
+    profileId TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    valence REAL NOT NULL,
+    arousal REAL NOT NULL,
+    label TEXT,
+    FOREIGN KEY (profileId) REFERENCES StateProfile(id) ON DELETE CASCADE
+);
+
+-- StateProfile queries
+selectAllProfiles:
+SELECT * FROM StateProfile;
+
+selectProfileById:
+SELECT * FROM StateProfile WHERE id = ?;
+
+insertProfile:
+INSERT INTO StateProfile(id, name, createdAt, updatedAt, baselineValence, baselineArousal)
+VALUES (?, ?, ?, ?, ?, ?);
+
+updateProfile:
+UPDATE StateProfile
+SET name = ?, updatedAt = ?, baselineValence = ?, baselineArousal = ?
+WHERE id = ?;
+
+deleteProfile:
+DELETE FROM StateProfile WHERE id = ?;
+
+-- AffectBlock queries
+selectBlocksByProfile:
+SELECT * FROM AffectBlock WHERE profileId = ? ORDER BY timestamp DESC;
+
+insertBlock:
+INSERT INTO AffectBlock(id, profileId, timestamp, valence, arousal, label)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteBlock:
+DELETE FROM AffectBlock WHERE id = ?;
