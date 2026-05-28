@@ -1,0 +1,303 @@
+From d304bba8024c2be7d4cac935f8ef8dadbb841d3a Mon Sep 17 00:00:00 2001
+From: Mon3tr <mon3tr@valenceyou.org>
+Date: Thu, 28 May 2026 08:08:31 +0800
+Subject: [PATCH] build: v0.1 debug APK
+
+- Fix imports (fastForEach -> forEach)
+- Fix Kotlin syntax (entries vs values)
+- Add resources (themes, icons)
+- Add gradle.properties for AndroidX
+- Successful build
+---
+ .gitignore                                     |   2 ++
+ .../main/java/com/valenceyou/MainActivity.kt   |   6 ++++--
+ .../java/com/valenceyou/affect/AffectCanvas.kt |   7 +++----
+ app/src/main/res/mipmap-hdpi/ic_launcher.png   | Bin 0 -> 187 bytes
+ .../main/res/mipmap-hdpi/ic_launcher_round.png | Bin 0 -> 187 bytes
+ app/src/main/res/mipmap-mdpi/ic_launcher.png   | Bin 0 -> 144 bytes
+ .../main/res/mipmap-mdpi/ic_launcher_round.png | Bin 0 -> 144 bytes
+ app/src/main/res/mipmap-xhdpi/ic_launcher.png  | Bin 0 -> 242 bytes
+ .../res/mipmap-xhdpi/ic_launcher_round.png     | Bin 0 -> 242 bytes
+ app/src/main/res/mipmap-xxhdpi/ic_launcher.png | Bin 0 -> 435 bytes
+ .../res/mipmap-xxhdpi/ic_launcher_round.png    | Bin 0 -> 435 bytes
+ .../main/res/mipmap-xxxhdpi/ic_launcher.png    | Bin 0 -> 567 bytes
+ .../res/mipmap-xxxhdpi/ic_launcher_round.png   | Bin 0 -> 567 bytes
+ app/src/main/res/values/themes.xml             |   7 +++++++
+ build.sh                                       |  11 +++++++++++
+ gradle.properties                              |   2 ++
+ settings.gradle                                |  17 +++++++++++++++++
+ 17 files changed, 46 insertions(+), 6 deletions(-)
+ create mode 100644 .gitignore
+ create mode 100644 app/src/main/res/mipmap-hdpi/ic_launcher.png
+ create mode 100644 app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+ create mode 100644 app/src/main/res/mipmap-mdpi/ic_launcher.png
+ create mode 100644 app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+ create mode 100644 app/src/main/res/mipmap-xhdpi/ic_launcher.png
+ create mode 100644 app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+ create mode 100644 app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+ create mode 100644 app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+ create mode 100644 app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+ create mode 100644 app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+ create mode 100644 app/src/main/res/values/themes.xml
+ create mode 100755 build.sh
+ create mode 100644 gradle.properties
+ create mode 100644 settings.gradle
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..609c01b
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,2 @@
++*.apk
++*.tar.gz
+diff --git a/app/src/main/java/com/valenceyou/MainActivity.kt b/app/src/main/java/com/valenceyou/MainActivity.kt
+index 4d865aa..9db3d42 100644
+--- a/app/src/main/java/com/valenceyou/MainActivity.kt
++++ b/app/src/main/java/com/valenceyou/MainActivity.kt
+@@ -4,10 +4,12 @@ import android.os.Bundle
+ import androidx.activity.ComponentActivity
+ import androidx.activity.compose.setContent
+ import androidx.compose.foundation.layout.*
++import androidx.compose.foundation.shape.CircleShape
+ import androidx.compose.material3.*
+ import androidx.compose.runtime.*
+ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.graphics.Color
++import androidx.compose.ui.unit.dp
+ import com.valenceyou.affect.*
+ import com.valenceyou.ui.ResultScreen
+ import com.valenceyou.ui.theme.ValenceYouTheme
+@@ -118,8 +120,8 @@ private fun AffectCanvasScreen(
+                     .padding(16.dp),
+                 horizontalArrangement = Arrangement.SpaceEvenly
+             ) {
+-                EmotionType.values().filter { it != EmotionType.NEUTRAL }.forEach { emotion -
+->                    EmotionButton(
++                EmotionType.entries.filter { it != EmotionType.NEUTRAL }.forEach { emotion ->
++                    EmotionButton(
+                         emotion = emotion,
+                         onClick = {
+                             val newBlock = AffectBlock(
+diff --git a/app/src/main/java/com/valenceyou/affect/AffectCanvas.kt b/app/src/main/java/com/valenceyou/affect/AffectCanvas.kt
+index 0248f0c..1cf980e 100644
+--- a/app/src/main/java/com/valenceyou/affect/AffectCanvas.kt
++++ b/app/src/main/java/com/valenceyou/affect/AffectCanvas.kt
+@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.geometry.Offset
+ import androidx.compose.ui.graphics.drawscope.DrawScope
+ import androidx.compose.ui.input.pointer.pointerInput
+-import androidx.compose.ui.util.fastForEach
+ import kotlin.math.*
+ 
+ /**
+@@ -79,14 +78,14 @@ fun AffectCanvas(
+         val clusters = calculateSoftClusters(blocks, minDistance)
+         
+         // Draw relationship field (subtle connections)
+-        clusters.fastForEach { cluster ->
++        clusters.forEach { cluster ->
+             if (cluster.blocks.size >= 2) {
+                 drawClusterField(cluster, alpha = 0.15f)
+             }
+         }
+         
+         // Draw blocks with soft gravity influence
+-        blocks.fastForEach { block ->
++        blocks.forEach { block ->
+             val nearbyBlocks = blocks.filter { other ->
+                 other.id != block.id && 
+                 distance(block, other) < block.influenceRadius
+@@ -107,7 +106,7 @@ fun AffectCanvas(
+                 var forceY = 0f
+                 
+                 // Soft emotional gravity: nearby blocks attract
+-                blocks.filter { it.id != block.id }.forEach { other ->
++        blocks.filter { it.id != block.id }.forEach { other ->
+                     val dist = distance(block, other)
+                     if (dist < block.influenceRadius && dist > minDistance * 0.5f) {
+                         val strength = gravityStrength * (1 - dist / block.influenceRadius)
+diff --git a/app/src/main/res/mipmap-hdpi/ic_launcher.png b/app/src/main/res/mipmap-hdpi/ic_launcher.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..51eceefb9bd587797df567efe0384392da91b7f1
+GIT binary patch
+literal 187
+zcmeAS@N?(olHy`uVBq!ia0vp^9w5xY1SD_us|Wxo&H|6fVj#^3#{Q~Dt^pajo-U3d
+z6?5L6cjRSI5IC@*xX&VPhZCD*rV-=oHJkV6%#&|uY*b}l%^JqNMl3>iLsY`n16hq%
+dnaB|+Wi+0Ws4+EqN*~Z-22WQ%mvv4FO#q;1JAeQH
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-hdpi/ic_launcher_round.png b/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..51eceefb9bd587797df567efe0384392da91b7f1
+GIT binary patch
+literal 187
+zcmeAS@N?(olHy`uVBq!ia0vp^9w5xY1SD_us|Wxo&H|6fVj#^3#{Q~Dt^pajo-U3d
+z6?5L6cjRSI5IC@*xX&VPhZCD*rV-=oHJkV6%#&|uY*b}l%^JqNMl3>iLsY`n16hq%
+dnaB|+Wi+0Ws4+EqN*~Z-22WQ%mvv4FO#q;1JAeQH
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-mdpi/ic_launcher.png b/app/src/main/res/mipmap-mdpi/ic_launcher.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8c7f6d7a886b55eacd863a0047238b941c097bf3
+GIT binary patch
+literal 144
+zcmeAS@N?(olHy`uVBq!ia0vp^1|ZDA1SD@H<Xr$#oCO|{#Xy=7jQv%QTmv$kJY5_^
+zD(1XBXUNN-Ai%J(yw5@{=3!HEMiArN(r@8v@*JF;oL89@6%`j&DX6HZgz&cj!K=mz
+i6D9=M3J3{Ry<t)nO5s=h;9mnYjlt8^&t;ucLK6T#n<d2n
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-mdpi/ic_launcher_round.png b/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8c7f6d7a886b55eacd863a0047238b941c097bf3
+GIT binary patch
+literal 144
+zcmeAS@N?(olHy`uVBq!ia0vp^1|ZDA1SD@H<Xr$#oCO|{#Xy=7jQv%QTmv$kJY5_^
+zD(1XBXUNN-Ai%J(yw5@{=3!HEMiArN(r@8v@*JF;oL89@6%`j&DX6HZgz&cj!K=mz
+i6D9=M3J3{Ry<t)nO5s=h;9mnYjlt8^&t;ucLK6T#n<d2n
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xhdpi/ic_launcher.png b/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c5a628d286347087d163ebc027df21587c470d9
+GIT binary patch
+literal 242
+zcmeAS@N?(olHy`uVBq!ia0vp^2_VeD1SE5RJ;(=AoCO|{#Xy=7jQv%QTmv$ec)B=-
+zRLpsM!H}0hLEylF@;(c-n1>Bh`KE_B6mLFvZSl`K0e%4mhX#gLW)==0;~@hh6AMRx
+k1yF>MNraE~QZLfQ*ZNKH=$bFP9OzyKPgg&ebxsLQ0745ksQ>@~
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png b/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c5a628d286347087d163ebc027df21587c470d9
+GIT binary patch
+literal 242
+zcmeAS@N?(olHy`uVBq!ia0vp^2_VeD1SE5RJ;(=AoCO|{#Xy=7jQv%QTmv$ec)B=-
+zRLpsM!H}0hLEylF@;(c-n1>Bh`KE_B6mLFvZSl`K0e%4mhX#gLW)==0;~@hh6AMRx
+k1yF>MNraE~QZLfQ*ZNKH=$bFP9OzyKPgg&ebxsLQ0745ksQ>@~
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xxhdpi/ic_launcher.png b/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0696e26da152f6b9cc1b01d802696ad8bdd837e3
+GIT binary patch
+literal 435
+zcmeAS@N?(olHy`uVBq!ia0vp^6F``Q2}owBl)eX2oCO|{#Xy=7jQv%QTm!OGJzX3_
+zD(1Ysc#xApLEylK+jkz;?3`-+W0I2svxwE}9H(d1jQ%{`hC0VKNE}WYWsnmH&zNSO
+VZCN9#^%NBH44$rjF6*2Ung9vyqSF8X
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png b/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0696e26da152f6b9cc1b01d802696ad8bdd837e3
+GIT binary patch
+literal 435
+zcmeAS@N?(olHy`uVBq!ia0vp^6F``Q2}owBl)eX2oCO|{#Xy=7jQv%QTm!OGJzX3_
+zD(1Ysc#xApLEylK+jkz;?3`-+W0I2svxwE}9H(d1jQ%{`hC0VKNE}WYWsnmH&zNSO
+VZCN9#^%NBH44$rjF6*2Ung9vyqSF8X
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png b/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed4758e28ab237108b2788841432d4dd851dd470
+GIT binary patch
+literal 567
+zcmeAS@N?(olHy`uVBq!ia0vp^2SAvE2}s`E_d5VcaTa()76WNUF!onHat+9S>FMGa
+zQZeW4rHz~n3JeDf?7v&6@BhSZ-63#-QP%2NTtTjl{)22bB}0MEMh_mBBn2Vni4q-0
+g98^YyhE_<(@HaSGKRlVS6Bzppp00i_>zopr01d>KPXGV_
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png b/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed4758e28ab237108b2788841432d4dd851dd470
+GIT binary patch
+literal 567
+zcmeAS@N?(olHy`uVBq!ia0vp^2SAvE2}s`E_d5VcaTa()76WNUF!onHat+9S>FMGa
+zQZeW4rHz~n3JeDf?7v&6@BhSZ-63#-QP%2NTtTjl{)22bB}0MEMh_mBBn2Vni4q-0
+g98^YyhE_<(@HaSGKRlVS6Bzppp00i_>zopr01d>KPXGV_
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+new file mode 100644
+index 0000000..9bad93c
+--- /dev/null
++++ b/app/src/main/res/values/themes.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <style name="Theme.ValenceYou" parent="android:Theme.Material.Light.NoActionBar">
++        <item name="android:statusBarColor">@android:color/transparent</item>
++        <item name="android:navigationBarColor">@android:color/transparent</item>
++    </style>
++</resources>
+diff --git a/build.sh b/build.sh
+new file mode 100755
+index 0000000..49940c7
+--- /dev/null
++++ b/build.sh
+@@ -0,0 +1,11 @@
++#!/bin/bash
++# Simple build script for ValenceYou
++
++export ANDROID_HOME=/opt/android-sdk
++export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
++
++# Use local gradle
++GRADLE_BIN=/root/.openclaw/workspace/apps/valence-you/gradle-8.2/bin/gradle
++
++cd /root/.openclaw/workspace/apps/valence-you
++$GRADLE_BIN assembleDebug "$@"
+diff --git a/gradle.properties b/gradle.properties
+new file mode 100644
+index 0000000..aee782f
+--- /dev/null
++++ b/gradle.properties
+@@ -0,0 +1,2 @@
++android.useAndroidX=true
++android.suppressUnsupportedCompileSdk=34
+diff --git a/settings.gradle b/settings.gradle
+new file mode 100644
+index 0000000..d8c208f
+--- /dev/null
++++ b/settings.gradle
+@@ -0,0 +1,17 @@
++pluginManagement {
++    repositories {
++        google()
++        mavenCentral()
++        gradlePluginPortal()
++    }
++}
++dependencyResolutionManagement {
++    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
++    repositories {
++        google()
++        mavenCentral()
++    }
++}
++
++rootProject.name = "ValenceYou"
++include ':app'
+-- 
+2.43.0
+
