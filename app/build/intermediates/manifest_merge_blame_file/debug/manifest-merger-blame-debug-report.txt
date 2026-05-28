@@ -1,0 +1,61 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.valenceyou"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <permission
+11-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+12        android:name="com.valenceyou.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+12-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+13        android:protectionLevel="signature" />
+13-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+14
+15    <uses-permission android:name="com.valenceyou.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+15-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+15-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+16
+17    <application
+17-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:5:5-23:19
+18        android:allowBackup="true"
+18-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:6:9-35
+19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+19-->[androidx.core:core:1.12.0] /root/.gradle/caches/transforms-3/3e209530d52db8edab343d2f85fec4ea/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+20        android:debuggable="true"
+21        android:extractNativeLibs="false"
+22        android:icon="@mipmap/ic_launcher"
+22-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:7:9-43
+23        android:label="ValenceYou"
+23-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:8:9-35
+24        android:theme="@android:style/Theme.Material.Light.NoActionBar" >
+24-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:9:9-72
+25        <activity
+25-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:11:9-18:20
+26            android:name="com.valenceyou.MainActivity"
+26-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:12:13-41
+27            android:exported="true" >
+27-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:13:13-36
+28            <intent-filter>
+28-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:14:13-17:29
+29                <action android:name="android.intent.action.MAIN" />
+29-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:15:17-69
+29-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:15:25-66
+30
+31                <category android:name="android.intent.category.LAUNCHER" />
+31-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:16:17-77
+31-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:16:27-74
+32            </intent-filter>
+33        </activity>
+34        <activity android:name="com.valenceyou.ContentActivity" />
+34-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:20:9-53
+34-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:20:19-50
+35        <activity android:name="com.valenceyou.ComposerActivity" />
+35-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:21:9-54
+35-->/root/.openclaw/workspace/apps/valence-you/app/src/main/AndroidManifest.xml:21:19-51
+36    </application>
+37
+38</manifest>

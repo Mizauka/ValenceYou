@@ -27,5 +27,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ValenceYou"
-include(":composeApp")
-include(":shared")
+include(":app")
+// include(":composeApp")
+// include(":shared")

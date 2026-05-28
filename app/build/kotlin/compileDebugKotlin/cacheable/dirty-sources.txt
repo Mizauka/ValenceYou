@@ -1,0 +1,15 @@
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/ui/theme/Theme.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/routing/AnchorRouter.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/model/StateProfile.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/affect/AffectCanvas.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/screens/ComposerScreen.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/screens/ContentScreen.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/MainActivity.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/affect/AffectBlock.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/model/AffectBlock.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/ValenceYouApp.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/ui/theme/Type.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/affect/RiskDetector.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/screens/HomeScreen.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/ui/ResultScreen.kt
+/root/.openclaw/workspace/apps/valence-you/app/src/main/java/com/valenceyou/model/PhenomenologicalAnchor.kt
