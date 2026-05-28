@@ -30,7 +30,7 @@ import kotlin.math.*
  */
 @Composable
 fun AffectComposerScreen(
-    onRouteToState: (MentalState) -> Unit,
+    onRouteToState: (PhenomenologicalAnchor) -> Unit,
     onBack: () -> Unit
 ) {
     var blocks by remember { mutableStateOf(listOf<AffectBlock>()) }
@@ -44,9 +44,9 @@ fun AffectComposerScreen(
         riskDetector.analyze(blocks, clusters)
     }
 
-    // State routing logic
-    val routedState = remember(riskState, clusters) {
-        routeToState(riskState, clusters, blocks)
+    // State routing logic - map to PhenomenologicalAnchor
+    val routedAnchor = remember(riskState, clusters) {
+        routeToAnchor(riskState, clusters, blocks)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -73,9 +73,9 @@ fun AffectComposerScreen(
                     color = Color(0xFF424242)
                 )
 
-                if (blocks.isNotEmpty() && routedState != null) {
+                if (blocks.isNotEmpty() && routedAnchor != null) {
                     TextButton(onClick = {
-                        onRouteToState(routedState)
+                        onRouteToState(routedAnchor)
                     }) {
                         Text("这像我", color = Color(0xFF2E7D32))
                     }
@@ -120,14 +120,14 @@ fun AffectComposerScreen(
                     .padding(16.dp)
             ) {
                 // Routing hint
-                if (routedState != null && blocks.size >= 2) {
+                if (routedAnchor != null && blocks.size >= 2) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 12.dp),
                         shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = routedState.color.copy(alpha = 0.2f)
+                            containerColor = routedAnchor.color.copy(alpha = 0.2f)
                         )
                     ) {
                         Row(
@@ -139,23 +139,18 @@ fun AffectComposerScreen(
                         ) {
                             Column {
                                 Text(
-                                    text = "这可能接近: ${routedState.title}",
+                                    text = "这可能接近: ${routedAnchor.experience}",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Medium,
                                     color = Color(0xFF424242)
                                 )
-                                Text(
-                                    text = routedState.subtitle,
-                                    fontSize = 12.sp,
-                                    color = Color(0xFF757575)
-                                )
                             }
 
                             Button(
-                                onClick = { onRouteToState(routedState) },
+                                onClick = { onRouteToState(routedAnchor) },
                                 shape = RoundedCornerShape(20.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = routedState.color.copy(alpha = 0.6f)
+                                    containerColor = routedAnchor.color.copy(alpha = 0.6f)
                                 )
                             ) {
                                 Text("进入", fontSize = 12.sp)
@@ -191,13 +186,13 @@ fun AffectComposerScreen(
 }
 
 /**
- * State Routing: 从情绪拼图映射到状态入口
+ * State Routing: 从情绪拼图映射到现象学锚点
  */
-private fun routeToState(
+private fun routeToAnchor(
     riskState: RiskDetector.RiskState,
     clusters: List<Cluster>,
     blocks: List<AffectBlock>
-): MentalState? {
+): PhenomenologicalAnchor? {
     if (blocks.size < 2) return null
 
     // Count emotion types
@@ -205,31 +200,31 @@ private fun routeToState(
     val hasOverwhelming = blocks.any { it.intensity == IntensityBand.OVERWHELMING }
     val hasStrong = blocks.any { it.intensity == IntensityBand.STRONG }
 
-    // Route logic
+    // Route logic based on emotion patterns
     return when {
-        // 我停不下来: high overdrive + high attachment + panic
+        // Activation/Overdrive patterns
         (emotionCounts[EmotionType.ANGER] ?: 0) >= 2 &&
         (emotionCounts[EmotionType.ANTICIPATION] ?: 0) >= 1 &&
-        (hasStrong || hasOverwhelming) -> MentalState.OVERDRIVE
+        (hasStrong || hasOverwhelming) -> PhenomenologicalAnchor.CANT_STOP
 
-        // 我感觉不到自己: numbness + dissociation
+        // Numbness/Dissociation patterns
         (emotionCounts[EmotionType.SADNESS] ?: 0) >= 2 &&
         (emotionCounts[EmotionType.FEAR] ?: 0) >= 1 &&
-        clusters.any { it.isSoft } -> MentalState.NUMBNESS
+        clusters.any { it.isSoft } -> PhenomenologicalAnchor.CANT_FEEL_SELF
 
-        // 我终于感觉到自己: sudden awareness + trust
+        // Attachment/Validation patterns
         (emotionCounts[EmotionType.TRUST] ?: 0) >= 1 &&
         (emotionCounts[EmotionType.SURPRISE] ?: 0) >= 1 &&
-        riskState.overallRisk in 0.3f..0.6f -> MentalState.AWARENESS
+        riskState.overallRisk in 0.3f..0.6f -> PhenomenologicalAnchor.DEPENDENT_ON_SOMEONE
 
-        // 我睡不着: high fear + high anticipation
+        // Collapse patterns
         (emotionCounts[EmotionType.FEAR] ?: 0) >= 2 &&
-        (emotionCounts[EmotionType.ANTICIPATION] ?: 0) >= 1 -> MentalState.INSOMNIA
+        (emotionCounts[EmotionType.ANTICIPATION] ?: 0) >= 1 -> PhenomenologicalAnchor.NO_STRENGTH
 
         // Default based on risk direction
-        riskState.riskDirection > 0.3f -> MentalState.OVERDRIVE
-        riskState.riskDirection < -0.3f -> MentalState.NUMBNESS
-        else -> MentalState.AWARENESS
+        riskState.riskDirection > 0.3f -> PhenomenologicalAnchor.CANT_STOP
+        riskState.riskDirection < -0.3f -> PhenomenologicalAnchor.CANT_FEEL_SELF
+        else -> PhenomenologicalAnchor.NO_STRENGTH
     }
 }
 
