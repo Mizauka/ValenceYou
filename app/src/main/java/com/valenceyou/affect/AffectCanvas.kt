@@ -265,3 +265,56 @@ private fun calculateSoftClusters(
 private fun distance(a: AffectBlock, b: AffectBlock): Float {
     return sqrt((a.x - b.x).pow(2) + (a.y - b.y).pow(2))
 }
+
+internal fun calculateClustersForApp(blocks: List<AffectBlock>): List<Cluster> {
+    if (blocks.size < 2) return emptyList()
+    
+    val minDistance = 120f
+    val visited = mutableSetOf<String>()
+    val clusters = mutableListOf<Cluster>()
+    
+    blocks.forEach { block ->
+        if (block.id in visited) return@forEach
+        
+        val clusterBlocks = mutableListOf<AffectBlock>()
+        val queue = mutableListOf(block)
+        
+        while (queue.isNotEmpty()) {
+            val current = queue.removeAt(0)
+            if (current.id in visited) continue
+            
+            visited.add(current.id)
+            clusterBlocks.add(current)
+            
+            blocks.filter { other ->
+                other.id != current.id &&
+                other.id !in visited &&
+                distanceApp(current, other) < minDistance * 1.5f
+            }.forEach { queue.add(it) }
+        }
+        
+        if (clusterBlocks.size >= 2) {
+            val avgX = clusterBlocks.map { it.x }.average().toFloat()
+            val avgY = clusterBlocks.map { it.y }.average().toFloat()
+            val dominant = clusterBlocks
+                .groupBy { it.emotionType }
+                .maxByOrNull { it.value.size }?.key ?: EmotionType.NEUTRAL
+            val avgIntensity = clusterBlocks.map {
+                when (it.intensity) {
+                    IntensityBand.FAINT -> 0.25f
+                    IntensityBand.PRESENT -> 0.5f
+                    IntensityBand.STRONG -> 0.75f
+                    IntensityBand.OVERWHELMING -> 1.0f
+                }
+            }.average().toFloat()
+            
+            clusters.add(Cluster(clusterBlocks, avgX, avgY, dominant, avgIntensity))
+        }
+    }
+    
+    return clusters
+}
+
+internal fun distanceApp(a: AffectBlock, b: AffectBlock): Float {
+    return kotlin.math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y))
+}
