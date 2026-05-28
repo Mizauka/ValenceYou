@@ -1,2 +1,6 @@
 *.apk
 *.tar.gz
+gradle-8.2-bin.zip
+gradle-8.2/
+app/build/
+.gradle/
